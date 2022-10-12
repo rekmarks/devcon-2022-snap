@@ -3,15 +3,16 @@ import styled from 'styled-components';
 import { MetamaskActions, MetaMaskContext } from '../hooks';
 import {
   connectSnap,
+  TransactionConstants,
   getSnap,
-  sendHello,
+  sendContractTransaction,
   shouldDisplayReconnectButton,
 } from '../utils';
 import {
   ConnectButton,
   InstallFlaskButton,
   ReconnectButton,
-  SendHelloButton,
+  SendContractTransactionButton,
 } from './Buttons';
 import { Card } from './Card';
 
@@ -117,9 +118,11 @@ export const Home = () => {
     }
   };
 
-  const handleSendHelloClick = async () => {
+  const handleSendContractTransactionClick = async () => {
     try {
-      await sendHello();
+      await sendContractTransaction(
+        TransactionConstants.UpdateWithdrawalAccount,
+      );
     } catch (e) {
       console.error(e);
       dispatch({ type: MetamaskActions.SetError, payload: e });
@@ -129,7 +132,7 @@ export const Home = () => {
   return (
     <Container>
       <Heading>
-        Welcome to <Span>template-snap</Span>
+        Welcome to the <Span>ABI Decoder Snap</Span> interface
       </Heading>
       <Subtitle>
         Get started by editing <code>src/index.ts</code>
@@ -185,12 +188,12 @@ export const Home = () => {
         )}
         <Card
           content={{
-            title: 'Send Hello message',
+            title: 'Send Contract Transaction',
             description:
-              'Display a custom message within a confirmation screen in MetaMask.',
+              'Create a pending contract transaction in MetaMask so we can attempt decode it.',
             button: (
-              <SendHelloButton
-                onClick={handleSendHelloClick}
+              <SendContractTransactionButton
+                onClick={handleSendContractTransactionClick}
                 disabled={false}
               />
             ),
